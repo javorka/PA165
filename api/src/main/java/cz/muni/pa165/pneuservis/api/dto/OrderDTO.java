@@ -17,6 +17,15 @@ public class OrderDTO {
     private List<AdditionalServiceDTO> additionalServices;
     private Date dateCreated;
     private OrderStateDTO state;
+    private UserDTO user;
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

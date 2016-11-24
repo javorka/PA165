@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Michal Krajcovic <mkrajcovic@mail.muni.cz>
@@ -64,12 +65,6 @@ public class UserServiceImpl implements UserService {
 
         List<Order> byDateCreatedBetween = orderRepository.findByDateCreatedBetween(sevenDaysAgo.getTime(), now.getTime());
 
-        Set<User> result = new HashSet<>();
-
-        for (Order order : byDateCreatedBetween) {
-            result.add(order.getUser());
-        }
-
-        return new ArrayList<>(result);
+        return byDateCreatedBetween.stream().map(Order::getUser).collect(Collectors.toList());
     }
 }

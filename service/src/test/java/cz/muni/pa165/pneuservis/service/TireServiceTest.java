@@ -5,10 +5,13 @@ import cz.muni.pa165.pneuservis.persistence.domain.Tire;
 import cz.muni.pa165.pneuservis.persistence.enums.TireType;
 import cz.muni.pa165.pneuservis.persistence.repository.OrderRepository;
 import cz.muni.pa165.pneuservis.persistence.repository.TireRepository;
+import cz.muni.pa165.pneuservis.service.config.ServiceConfiguration;
 import cz.muni.pa165.pneuservis.service.impl.TireServiceImpl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -29,7 +32,8 @@ import static org.mockito.Mockito.when;
 /**
  * @author Michal Krajcovic <mkrajcovic@mail.muni.cz>
  */
-public class TireServiceTest {
+@ContextConfiguration(classes = ServiceConfiguration.class)
+public class TireServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private TireRepository tireRepository;
 

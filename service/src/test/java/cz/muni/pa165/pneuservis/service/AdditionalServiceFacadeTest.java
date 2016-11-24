@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  * Created by peter on 11/22/16.
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class AdditionalServiceServiceTest extends AbstractTestNGSpringContextTests {
+public class AdditionalServiceFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     AdditionalServiceRepository repository;
 

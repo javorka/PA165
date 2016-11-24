@@ -7,6 +7,7 @@ import cz.muni.pa165.pneuservis.persistence.domain.Tire;
 import cz.muni.pa165.pneuservis.persistence.domain.User;
 import cz.muni.pa165.pneuservis.persistence.enums.OrderState;
 import cz.muni.pa165.pneuservis.persistence.enums.TireType;
+import cz.muni.pa165.pneuservis.service.impl.UserServiceImpl;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -20,7 +21,7 @@ import org.springframework.context.annotation.Import;
  */
 
 @Configuration
-@ComponentScan(basePackages = "cz.muni.pa165.pneuservis.*")
+@ComponentScan(basePackageClasses = {UserServiceImpl.class})
 @Import(PersistenceConfiguration.class)
 public class ServiceConfiguration {
     @Bean

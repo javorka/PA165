@@ -22,26 +22,31 @@ public class AdditionalServiceServiceImpl implements AdditionalServiceService {
     @Inject
     AdditionalServiceRepository repository;
 
+    @Override
     public AdditionalService save(AdditionalService service) {
         logger.info("Requested to save AdditionalService : {}", service);
         return repository.save(service);
     }
 
+    @Override
     public AdditionalService findOne(Long id) {
         logger.info("Requested to find AdditionalService with id : {}", id);
         return repository.findOne(id);
     }
 
+    @Override
     public List<AdditionalService> findByNameContaining(String name) {
         logger.info("Requested to find AdditionalServices by name : {}", name);
         return repository.findByNameContaining(name);
     }
 
+    @Override
     public List<AdditionalService> findAll() {
         logger.info("Requested to find all AdditionalServices");
         return repository.findAll();
     }
 
+    @Override
     public void delete(Long id) {
         logger.info("Requested to delete AdditionalService with id: {} ", id);
         repository.delete(id);
