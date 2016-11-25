@@ -8,12 +8,17 @@ import cz.muni.pa165.pneuservis.persistence.enums.Role;
 import cz.muni.pa165.pneuservis.persistence.repository.OrderRepository;
 import cz.muni.pa165.pneuservis.persistence.repository.UserRepository;
 import cz.muni.pa165.pneuservis.service.config.ServiceConfiguration;
+import cz.muni.pa165.pneuservis.service.util.Utils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -49,8 +54,11 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     private User invalidUser;
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
+        UserService unwrappedProxy = (UserService) Utils.unwrapProxy(userService);
+        ReflectionTestUtils.setField(unwrappedProxy, "userRepository", userRepository);
+        ReflectionTestUtils.setField(unwrappedProxy, "orderRepository", orderRepository);
     }
 
     @BeforeMethod

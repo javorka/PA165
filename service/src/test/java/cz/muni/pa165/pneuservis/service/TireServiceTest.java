@@ -6,17 +6,19 @@ import cz.muni.pa165.pneuservis.persistence.enums.TireType;
 import cz.muni.pa165.pneuservis.persistence.repository.OrderRepository;
 import cz.muni.pa165.pneuservis.persistence.repository.TireRepository;
 import cz.muni.pa165.pneuservis.service.config.ServiceConfiguration;
-import cz.muni.pa165.pneuservis.service.impl.TireServiceImpl;
+import cz.muni.pa165.pneuservis.service.util.Utils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,13 +43,17 @@ public class TireServiceTest extends AbstractTestNGSpringContextTests {
     private OrderRepository orderRepository;
 
     @InjectMocks
-    private TireServiceImpl tireService;
+    @Inject
+    private TireService tireService;
 
     private Tire tire;
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
+        TireService unwrappedProxy = (TireService) Utils.unwrapProxy(tireService);
+        ReflectionTestUtils.setField(unwrappedProxy, "tireRepository", tireRepository);
+        ReflectionTestUtils.setField(unwrappedProxy, "orderRepository", orderRepository);
     }
 
     @BeforeMethod
