@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * Created by Peter on 10/19/2016.
@@ -23,9 +24,12 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackageClasses = UserRepository.class)
+@EnableAspectJAutoProxy
+//@ComponentScan("cz.muni.pa.165.persistence")
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
-public class PersistenceConfiguration {
 
+public class PersistenceConfiguration {
+    
     @Bean
     public JpaTransactionManager transactionManager(){
         return  new JpaTransactionManager(entityManagerFactory().getObject());

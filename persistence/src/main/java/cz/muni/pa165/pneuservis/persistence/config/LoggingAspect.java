@@ -11,18 +11,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Peter on 10/19/2016.
  */
+@Component
 @Aspect
 public class LoggingAspect {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut("within(cz.muni.pa165.pneuservis.persistence.service..*) || within(cz.muni.pa165.pneuservis.persistence.repository..*)")
+    //@Pointcut("execution(* cz.muni.pa165.pneuservis.persistence.config..*(..))")
+    //@Pointcut("execution(* *.*(..))")
     public void loggingPointcut() {
     }
+    
+    @Before("@annotation(cz.muni.pa165.pneuservis.persistence.config.Loggable)")
+	public void myAdvice(){
+		System.err.println("Executing myAdvice with Loggable annotation!!");
+	}
+    
+    //@Around("execution(public * *(..))")
+    @Around("execution(* cz.muni.pa165.pneuservis.persistence.repository.*.*(..))")
+    public Object logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
 
+        System.err.println("Calling method: "
+                + joinPoint.getSignature());
+
+        Object result = joinPoint.proceed();
+
+        System.err.println("Method finished: "
+                + joinPoint.getSignature());
+
+        return result;
+    }
+     
 
     @Around("loggingPointcut()")
     public Object log(ProceedingJoinPoint point) {
