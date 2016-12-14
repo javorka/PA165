@@ -1,6 +1,8 @@
 package cz.muni.pa165.pneuservis.api.facade;
 
 import cz.muni.pa165.pneuservis.api.dto.OrderDTO;
+import cz.muni.pa165.pneuservis.api.dto.OrderStateDTO;
+//import cz.muni.pa165.pneuservis.persistence.enums.OrderState;
 
 import java.util.List;
 
@@ -38,4 +40,7 @@ public interface OrderFacade {
      * @param id - must not be null.
      */
     void delete(Long id);
+
+    public List<OrderDTO> getOrdersByState(OrderStateDTO orderState);
+
 }

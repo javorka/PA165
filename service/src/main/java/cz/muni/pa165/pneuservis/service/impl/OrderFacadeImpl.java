@@ -1,6 +1,7 @@
 package cz.muni.pa165.pneuservis.service.impl;
 
 import cz.muni.pa165.pneuservis.api.dto.OrderDTO;
+import cz.muni.pa165.pneuservis.api.dto.OrderStateDTO;
 import cz.muni.pa165.pneuservis.api.facade.OrderFacade;
 import cz.muni.pa165.pneuservis.persistence.domain.Order;
 import cz.muni.pa165.pneuservis.service.BeanMappingService;
@@ -45,5 +46,10 @@ public class OrderFacadeImpl implements OrderFacade {
     public void delete(Long id) {
         logger.info("Requested to delete Order with id : {}", id);
         orderService.delete(id);
+    }
+
+    @Override
+    public List<OrderDTO> getOrdersByState(OrderStateDTO orderState) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
