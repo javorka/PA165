@@ -13,6 +13,9 @@
     <packaging>war</packaging>
     <name>MVC layer</name>
 
+    <properties>
+        <org.springframework.security.version>4.2.0.RELEASE</org.springframework.security.version>
+    </properties>
 
     <build>
         <!-- what to do when only "mvn" is run -->
@@ -91,11 +94,29 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
+
+
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>LATEST</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.springframework.security.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+
     </dependencies>
 
 
