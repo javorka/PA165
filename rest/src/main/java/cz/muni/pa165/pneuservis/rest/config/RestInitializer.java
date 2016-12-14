@@ -8,16 +8,16 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class RestInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RestConfiguration.class};
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/api/*"};
+        return new Class[] { SwaggerConfiguration.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return null;
+        return new Class<?>[] { RestConfiguration.class };
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] { "/" };
     }
 }
