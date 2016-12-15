@@ -21,6 +21,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css"/>
     <jsp:invoke fragment="head"/>
 </head>
 <body>
@@ -39,25 +40,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Pneuservis</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">Pneuservis</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Tires</a></li>
-                <li><a href="#">Additional services</a></li>
-                <li><a href="#">User management</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/tires/">Tires</a></li>
+                <li><a href="${pageContext.request.contextPath}/additionalService/">Additional services</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/">User management</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">User name <span class="caret"></span></a>
+                           aria-expanded="false"><sec:authentication property="principal.username"/><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">My orders</a></li>
-                            <li><a href="#">View profile</a></li>
+                            <li><a href="${pageContext.request.contextPath}/orders/">My orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/">My profile</a></li>
                             <li role="separator" class="divider"></li>
                             <li>
                                 <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
@@ -80,20 +81,6 @@
     <c:if test="${not empty title}">
         <div class="page-header">
             <h1><c:out value="${title}"/></h1>
-        </div>
-    </c:if>
-
-    <!-- authenticated user info -->
-    <c:if test="${not empty authenticatedUser}">
-        <div class="row">
-            <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
-                    </div>
-                </div>
-            </div>
         </div>
     </c:if>
 

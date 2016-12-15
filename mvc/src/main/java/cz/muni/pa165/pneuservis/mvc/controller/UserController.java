@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -82,25 +81,5 @@ public class UserController {
         userFacade.delete(id);
         return "{response: 'Success'}";
     }
-
-    @PreAuthorize("isAnonymous()")
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginGet() {
-        return "login";
-    }
-
-    @PreAuthorize("isAnonymous()")
-    @GetMapping(value = "signup")
-    public String signUp() {
-        return "signup";
-    }
-
-    @PreAuthorize("isAnonymous()")
-    @PostMapping(value = "signup")
-    public String submitSignUp() {
-        // bCryptPasswordEncoder.encode(userRegistrationForm.getPassword())
-        return "lol";
-    }
-
 
 }
