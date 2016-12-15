@@ -1,5 +1,6 @@
 package cz.muni.pa165.pneuservis.mvc.config;
 
+import cz.muni.pa165.pneuservis.data.config.SampleDataConfiguration;
 import cz.muni.pa165.pneuservis.mvc.controller.AdditionalServiceController;
 import cz.muni.pa165.pneuservis.mvc.security.WebSecurityConfiguration;
 import cz.muni.pa165.pneuservis.service.config.ServiceConfiguration;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * Created by xjavorka on 14.12.16.
  */
 @Configuration
-@Import({ServiceConfiguration.class, WebSecurityConfiguration.class})
+@Import({ServiceConfiguration.class, WebSecurityConfiguration.class, SampleDataConfiguration.class})
 @ComponentScan(basePackageClasses = {AdditionalServiceController.class})
 @EnableWebMvc
 public class MVCConfig extends WebMvcConfigurerAdapter {

@@ -70,6 +70,8 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
         calendar.set(2000, 11, 1);
         oldOrder.setDateCreated(calendar.getTime());
         oldOrder.setPhone("+420 989 989 898");
+        oldOrder.setPrice(washing.getPrice()
+                .add(tire1.getPrice().multiply(BigDecimal.valueOf(oldOrder.getTireQuantity()))));
 
         orderService.save(oldOrder);
 
@@ -83,6 +85,11 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
         calendar.set(2016, 12, 6);
         receivedOrder.setDateCreated(calendar.getTime());
         receivedOrder.setPhone("+421 111 222 333");
+        receivedOrder.setPrice(washing.getPrice()
+                .add(tireChange.getPrice())
+                .add(tire1.getPrice()
+                        .multiply(BigDecimal.valueOf(oldOrder.getTireQuantity()))));
+
 
         orderService.save(receivedOrder);
 
@@ -95,6 +102,7 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
         calendar.set(2016, 4, 1);
         canceledOrder.setDateCreated(calendar.getTime());
         canceledOrder.setPhone("+398 777 888 999");
+        canceledOrder.setPrice(tire2.getPrice().multiply(BigDecimal.valueOf(canceledOrder.getTireQuantity())));
 
         orderService.save(canceledOrder);
 
