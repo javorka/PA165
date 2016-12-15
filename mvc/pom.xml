@@ -40,15 +40,7 @@
             </plugin>
         </plugins>
     </build>
-
-
-
     <dependencies>
-        <dependency>
-            <groupId>cz.muni.pa165.pneuservis</groupId>
-            <artifactId>service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>cz.muni.pa165.pneuservis</groupId>
             <artifactId>sample-data</artifactId>
