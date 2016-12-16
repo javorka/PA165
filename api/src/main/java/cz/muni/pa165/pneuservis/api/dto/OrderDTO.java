@@ -1,5 +1,8 @@
 package cz.muni.pa165.pneuservis.api.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +12,33 @@ import java.util.Objects;
  * @author Michal Travnicek xtravni2
  */
 public class OrderDTO {
+
     private Long id;
+
+    @NotNull
     private String address;
+
+    @NotNull
     private String phone;
+
+    @DecimalMin("0.0")
+    @NotNull
     private BigDecimal price;
+
+    @NotNull
     private TireDTO tire;
+
+    @NotNull
+    @Min(1)
     private Integer tireQuantity;
+
     private List<AdditionalServiceDTO> additionalServices;
-    private Date dateCreated;
-    private OrderStateDTO state;
+
+    private Date dateCreated = new Date();
+
+    private OrderStateDTO state = OrderStateDTO.RECEIVED;
+
+    @NotNull
     private UserDTO user;
 
     public UserDTO getUser() {

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -63,15 +64,15 @@ public class TireController {
 
         logger.info("Saving AdditionalServiceDTO: {}", tireDTO);
         if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                String errName = fe.getObjectName() + "." + fe.getField() + "." + fe.getCode();
+                model.addAttribute(errName, true);
+            }
             return "tires/edit";
         }
         tireFacade.save(tireDTO);
         redirectAttributes.addFlashAttribute("alert_success", "Tire details were saved.");
         return "redirect:" + uriBuilder.path("/tires/").toUriString();
-//        model.addAttribute("tire", tireFacade.save(tire));
-//
-//        redirectAttributes.addFlashAttribute("alert_success", "Tire details were saved.");
-//        return "redirect:" + uriBuilder.path("/tires/edit/{id}").buildAndExpand(id).encode().toUriString();
     }
 
     @PostMapping(value="/delete/{id}")

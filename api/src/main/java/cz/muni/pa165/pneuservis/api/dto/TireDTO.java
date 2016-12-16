@@ -1,17 +1,33 @@
 package cz.muni.pa165.pneuservis.api.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
  * @author Martin Spisiak <spisiak@mail.muni.cz> on 23/11/2016.
  */
 public class TireDTO {
+
     private Long id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private TireTypeDTO tireType;
+
+    @NotNull
     private String size;
+
+    @NotNull
     private String manufacturer;
+
+    @NotNull
     private String vehicleType;
+
+    @DecimalMin("0.0")
+    @NotNull
     private BigDecimal price;
 
     public Long getId() { return id; }

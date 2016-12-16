@@ -5,9 +5,11 @@ import cz.muni.pa165.pneuservis.api.facade.AdditionalServiceFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,19 +36,21 @@ public class AdditionalServiceController {
         return "additionalService/list";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/new")
     public String newAdditionalService(Model model) {
         model.addAttribute("additionalService", new AdditionalServiceDTO());
         return "additionalService/edit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/edit/{id}")
     public String editAdditionalService(@PathVariable Long id, Model model) {
         model.addAttribute("additionalService", facade.findOne(id));
         return "additionalService/edit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/save")
     public String saveAdditionalService(@Valid @ModelAttribute("additionalService") AdditionalServiceDTO dto,
                                         BindingResult bindingResult,
@@ -55,13 +59,17 @@ public class AdditionalServiceController {
                                         UriComponentsBuilder uriBuilder) {
         logger.info("Saving AdditionalServiceDTO: {}", dto);
         if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                String errName = fe.getObjectName() + "." + fe.getField() + "." + fe.getCode();
+                model.addAttribute(errName, true);
+            }
             return "additionalService/edit";
         }
         facade.save(dto);
         return "redirect:" + uriBuilder.path("/additionalService/").toUriString();
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, UriComponentsBuilder uriBuilder) {
         logger.info("Deleting additional service with id: {}", id);

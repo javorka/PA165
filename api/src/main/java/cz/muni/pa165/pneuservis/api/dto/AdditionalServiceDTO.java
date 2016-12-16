@@ -1,14 +1,23 @@
 package cz.muni.pa165.pneuservis.api.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
  * Created by peter on 11/18/16.
  */
 public class AdditionalServiceDTO {
+
     private Long id;
+
+    @NotNull
     private String name;
+
     private String description;
+
+    @NotNull
+    @DecimalMin("0.00")
     private BigDecimal price;
 
     public Long getId() {
@@ -56,7 +65,7 @@ public class AdditionalServiceDTO {
         if (obj == null) {
             return false;
         }
-        if (! (obj instanceof AdditionalServiceDTO)) {
+        if (!(obj instanceof AdditionalServiceDTO)) {
             return false;
         }
         AdditionalServiceDTO other = (AdditionalServiceDTO) obj;
