@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -74,23 +75,43 @@ public class OrderController {
     
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String submitEdit(@Valid @ModelAttribute("order") OrderDTO order,
+    public String saveOrder(@ModelAttribute("order") OrderDTO order,
+            @ModelAttribute("user") UserDTO user,
             BindingResult bindingResult,
             Model model,
             UriComponentsBuilder uriBuilder) {
 
         logger.info("Saving Order: {}", order);
-        if (bindingResult.hasErrors()) {
-            return "orders/edit";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "orders/edit";
+//        }
         try {
+            order.setUser(user);
             orderFacade.save(order);
         } catch (Exception e) {
             logger.error(e.toString());
         }
         return "redirect:" + uriBuilder.path("/orders/").toUriString();
     }
-
+//
+//    @RequestMapping(value = "/save", method = RequestMethod.POST)
+//    public String saveOrder(@Valid @ModelAttribute("order") OrderDTO order,
+//            BindingResult bindingResult,
+//            Model model,
+//            UriComponentsBuilder uriBuilder) {
+//
+//        logger.info("Saving Order: {}", order);
+//        if (bindingResult.hasErrors()) {
+//            return "orders/edit";
+//        }
+//        try {
+//            orderFacade.save(order);
+//        } catch (Exception e) {
+//            logger.error(e.toString());
+//        }
+//        return "redirect:" + uriBuilder.path("/orders/").toUriString();
+//    }
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listOrders(Model model) {
         List<OrderDTO> orders;
