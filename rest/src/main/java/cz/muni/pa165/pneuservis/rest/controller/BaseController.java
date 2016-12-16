@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 public abstract class BaseController {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody

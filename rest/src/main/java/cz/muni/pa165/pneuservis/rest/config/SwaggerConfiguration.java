@@ -1,5 +1,6 @@
 package cz.muni.pa165.pneuservis.rest.config;
 
+import cz.muni.pa165.pneuservis.data.config.SampleDataConfiguration;
 import cz.muni.pa165.pneuservis.rest.controller.AdditionalServiceController;
 import cz.muni.pa165.pneuservis.service.config.ServiceConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -18,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackageClasses = {AdditionalServiceController.class})
 @EnableWebMvc
 @EnableSwagger2
-@Import(ServiceConfiguration.class)
+@Import(SampleDataConfiguration.class)
 public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
