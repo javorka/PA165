@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 
 /**
@@ -59,21 +60,29 @@ public class AdditionalServiceController {
                                         UriComponentsBuilder uriBuilder) {
         logger.info("Saving AdditionalServiceDTO: {}", dto);
         if (bindingResult.hasErrors()) {
-            for (FieldError fe : bindingResult.getFieldErrors()) {
-                String errName = fe.getObjectName() + "." + fe.getField() + "." + fe.getCode();
-                model.addAttribute(errName, true);
-            }
+            StringBuilder builder = new StringBuilder("Validation failed for fields: ");
+            bindingResult.getFieldErrors().forEach(fieldError -> builder.append(fieldError.getField()).append(", "));
+            builder.setLength(builder.length() - 2);
+
+            model.addAttribute("alert_danger", builder.toString());
             return "additionalService/edit";
         }
         facade.save(dto);
+        redirectAttributes.addFlashAttribute("alert_success", "Additional service was saved.");
         return "redirect:" + uriBuilder.path("/additionalService/").toUriString();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable Long id, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable Long id, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         logger.info("Deleting additional service with id: {}", id);
-        facade.delete(id);
+        try {
+            facade.delete(id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "ERROR! Additional service cannot be deleted.");
+            return "redirect:" + uriBuilder.path("/additionalService/").toUriString();
+        }
+        redirectAttributes.addFlashAttribute("alert_success", "Additional service was successfully deleted.");
         return "redirect:" + uriBuilder.path("/additionalService/").toUriString();
     }
 }
