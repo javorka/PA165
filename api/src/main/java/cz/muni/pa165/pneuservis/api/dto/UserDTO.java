@@ -1,5 +1,8 @@
 package cz.muni.pa165.pneuservis.api.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -8,10 +11,16 @@ import java.util.List;
 public class UserDTO {
     private Long id;
 
+    @NotNull
+    @Size(min = 5, max = 50)
     private String name;
 
+    @NotNull
+    @Size(min = 6, max = 50)
     private String password;
 
+    @NotNull
+    @Pattern(regexp=".+@.+\\....?")
     private String email;
 
     private List<RoleDTO> roles;

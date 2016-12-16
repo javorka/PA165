@@ -2,6 +2,7 @@ package cz.muni.pa165.pneuservis.mvc.controller;
 
 import cz.muni.pa165.pneuservis.api.dto.UserDTO;
 import cz.muni.pa165.pneuservis.api.facade.UserFacade;
+import cz.muni.pa165.pneuservis.mvc.form.UserEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,14 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -50,26 +51,34 @@ public class UserController {
     @GetMapping("edit")
     public String editSelf(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
-        model.addAttribute("user", user);
+        UserEditForm userForm = new UserEditForm();
+        userForm.setEmail(user.getEmail());
+        userForm.setName(user.getName());
+        model.addAttribute("user", userForm);
         return "user/edit";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("edit")
     public String submitEdit(@AuthenticationPrincipal UserDetails userDetails,
-                             @ModelAttribute("user") UserDTO userDTO,
+                             @Valid @ModelAttribute("user") UserEditForm userForm,
+                             BindingResult bindingResult,
                              Model model, RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder) {
 
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "user/edit";
+        }
+
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
 
-        if (userDTO.getName() != null && !userDTO.getName().isEmpty()) {
-            user.setName(userDTO.getName());
-        }
-
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        }
+        user.setName(userForm.getName());
+        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
 
         model.addAttribute("user", userFacade.save(user));
 
@@ -81,7 +90,10 @@ public class UserController {
     @GetMapping("edit/{id}")
     public String editUser(@PathVariable long id, Model model) {
         UserDTO user = userFacade.findOne(id);
-        model.addAttribute("user", user);
+        UserEditForm userForm = new UserEditForm();
+        userForm.setEmail(user.getEmail());
+        userForm.setName(user.getName());
+        model.addAttribute("user", userForm);
         model.addAttribute("id", id);
         return "user/edit";
     }
@@ -89,18 +101,25 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("edit/{id}")
     public String submitEdit(@PathVariable long id,
-                             @ModelAttribute("user") UserDTO userDTO,
+                             @Valid @ModelAttribute("user") UserEditForm userForm,
+                             BindingResult bindingResult,
                              Model model, RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder) {
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return uriBuilder.path("/user/edit/{id}").buildAndExpand(id).encode().toUriString();
+        }
+
         UserDTO user = userFacade.findOne(id);
 
-        if (userDTO.getName() != null && !userDTO.getName().isEmpty()) {
-            user.setName(userDTO.getName());
-        }
+        user.setName(userForm.getName());
 
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        }
+        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
 
         model.addAttribute("user", userFacade.save(user));
 

@@ -12,6 +12,8 @@
 <my:template title="All orders">
 <jsp:attribute name="body">
     
+    <a href="${pageContext.request.contextPath}/orders/create/" class="btn btn-primary">Create</a>
+    
     <table class="table">
         <thead>
         <tr>

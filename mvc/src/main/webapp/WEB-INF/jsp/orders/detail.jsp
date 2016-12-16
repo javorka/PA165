@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%--.
   Author: xtravni2
@@ -56,7 +57,8 @@
         </c:when>        
     </c:choose>
         <div class="col-xs-1">
-            <form method="delete" action="${pageContext.request.contextPath}/orders/delete/${order.id}">
+            <form method="post" action="${pageContext.request.contextPath}/orders/delete/${order.id}">
+            <sec:csrfInput/>
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
     </div>
