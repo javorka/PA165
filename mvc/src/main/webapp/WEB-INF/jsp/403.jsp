@@ -17,7 +17,7 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Access denied!</h1>
-        <p>You are not welcome here, please turn around 360 degrees and walk away.</p>
+        <p>You are not welcome here, please turn around 180 degrees and walk away.</p>
     </div>
 </div>
 </jsp:attribute>

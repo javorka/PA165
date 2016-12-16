@@ -4,6 +4,7 @@ import cz.muni.pa165.pneuservis.api.dto.TireDTO;
 import cz.muni.pa165.pneuservis.api.facade.TireFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,13 +37,15 @@ public class TireController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addTire(Model model) {
         model.addAttribute("tire", new TireDTO());
         return "tires/edit";
     }
 
     @GetMapping("/edit/{id}")
-    public String editAdditionalService(@PathVariable Long id, Model model) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String editTire(@PathVariable Long id, Model model) {
         model.addAttribute("tire", tireFacade.findOne(id));
         return "tires/edit";
     }
@@ -56,18 +59,20 @@ public class TireController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String submitEdit(@Valid @ModelAttribute("tire") TireDTO tireDTO,
                              BindingResult bindingResult,
                              Model model,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder) {
 
-        logger.info("Saving AdditionalServiceDTO: {}", tireDTO);
+        logger.info("Saving TireDTO: {}", tireDTO);
         if (bindingResult.hasErrors()) {
-            for (FieldError fe : bindingResult.getFieldErrors()) {
-                String errName = fe.getObjectName() + "." + fe.getField() + "." + fe.getCode();
-                model.addAttribute(errName, true);
-            }
+            StringBuilder builder = new StringBuilder("Validation failed for fields: ");
+            bindingResult.getFieldErrors().forEach(fieldError -> builder.append(fieldError.getField()).append(", "));
+            builder.setLength(builder.length() - 2);
+
+            model.addAttribute("alert_danger", builder.toString());
             return "tires/edit";
         }
         tireFacade.save(tireDTO);
@@ -76,6 +81,7 @@ public class TireController {
     }
 
     @PostMapping(value="/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String delete(@PathVariable long id,
                          Model model,
                          RedirectAttributes redirectAttributes,
