@@ -1,5 +1,6 @@
 package cz.muni.pa165.pneuservis.rest.controller;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import cz.muni.pa165.pneuservis.api.dto.AdditionalServiceDTO;
 import cz.muni.pa165.pneuservis.api.facade.AdditionalServiceFacade;
 import io.swagger.annotations.Api;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/additional-service")
-public class AdditionalServiceController {
+public class AdditionalServiceController extends BaseController {
     @Autowired
     AdditionalServiceFacade facade;
 
