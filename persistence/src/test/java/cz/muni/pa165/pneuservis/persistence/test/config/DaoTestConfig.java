@@ -28,6 +28,7 @@ public class DaoTestConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
+        factory.setPersistenceUnitName("test");
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return factory;
     }

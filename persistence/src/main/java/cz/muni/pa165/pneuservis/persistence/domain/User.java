@@ -5,6 +5,7 @@ import cz.muni.pa165.pneuservis.persistence.enums.Role;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
@@ -29,7 +30,7 @@ public class User extends AbstractEntity {
     @NotNull
     private String email;
 
-    @Enumerated
+    @Enumerated(value= EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     private List<Role> roles;
 

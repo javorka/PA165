@@ -1,0 +1,11 @@
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.table>tbody>tr>td form {
+    display: inline-block;
+}
+
+.border-top {
+    border-top: 1px solid #eee;
+}
