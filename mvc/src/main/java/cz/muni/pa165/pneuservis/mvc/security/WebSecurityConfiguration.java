@@ -49,8 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
 
 
-        http.
-                addFilterBefore(filter, CsrfFilter.class)
+        http.addFilterBefore(filter, CsrfFilter.class)
                 .authorizeRequests()
                 .and()
                 .logout()
@@ -65,6 +64,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .csrf();
     }

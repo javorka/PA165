@@ -112,7 +112,7 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
     private User createAdmin() {
         User user = new User();
         user.setName("Admin");
-        user.setPassword("admin");
+        user.setPassword("$2a$10$J6GXBtY/DDq317kymm3zD.d9J6UEP2CYkw3kDSaXx81bDrw1JP.6S");
         user.setEmail("admin@pneuservis.fi.muni.cz");
         user.setRoles(Arrays.asList(Role.CUSTOMER, Role.ADMIN));
         return user;
@@ -121,9 +121,9 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
     private User createCustomer() {
         User user = new User();
         user.setName("User #1");
-        user.setPassword("aaaaa");
+        user.setPassword("$2a$10$J6GXBtY/DDq317kymm3zD.d9J6UEP2CYkw3kDSaXx81bDrw1JP.6S");
         user.setEmail("student@fi.muni.cz");
-        user.setRoles(Collections.singletonList(Role.ADMIN));
+        user.setRoles(Collections.singletonList(Role.CUSTOMER));
         return user;
     }
 

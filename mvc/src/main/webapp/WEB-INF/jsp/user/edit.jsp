@@ -13,10 +13,17 @@
 
 <my:template title="Edit User">
 <jsp:attribute name="body">
-
+    <c:choose>
+        <c:when test="${empty id}">
+            <c:set var="editAction" value="${pageContext.request.contextPath}/user/edit"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="editAction" value="${pageContext.request.contextPath}/user/edit/${id}"/>
+        </c:otherwise>
+    </c:choose>
 <div class="container">
     <div class="col-md-6">
-        <form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/user/edit">
+        <form:form method="post" modelAttribute="user" action="${editAction}">
             <div class="form-group">
                 <label for="email">Email</label>
                 <form:input path="email" cssClass="form-control" id="email" placeholder="Email" disabled="true"/>

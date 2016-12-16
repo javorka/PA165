@@ -2,6 +2,7 @@
 <%@ attribute name="title" required="false" %>
 <%@ attribute name="head" fragment="true" %>
 <%@ attribute name="body" fragment="true" required="true" %>
+<%@ attribute name="script" fragment="true" required="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -68,7 +69,7 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
-                    <li><a href="${pageContext.request.contextPath}/user/login">Login</a></li>
+                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                 </sec:authorize>
             </ul>
         </div>
@@ -122,5 +123,6 @@
 <!-- javascripts placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<jsp:invoke fragment="script"/>
 </body>
 </html>

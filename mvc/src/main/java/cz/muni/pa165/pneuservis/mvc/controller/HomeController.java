@@ -29,6 +29,11 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/403")
+    public String accessDenied() {
+        return "403";
+    }
+
 //    @PreAuthorize("isAnonymous()")
 //    @GetMapping("signup")
 //    public String signUp() {

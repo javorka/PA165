@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -49,7 +48,7 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("edit")
-    public String editUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String editSelf(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
         model.addAttribute("user", user);
         return "user/edit";
@@ -57,7 +56,11 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("edit")
-    public String submitEdit(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute("user") UserDTO userDTO, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String submitEdit(@AuthenticationPrincipal UserDetails userDetails,
+                             @ModelAttribute("user") UserDTO userDTO,
+                             Model model, RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder) {
+
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
 
         if (userDTO.getName() != null && !userDTO.getName().isEmpty()) {
@@ -74,12 +77,51 @@ public class UserController {
         return "redirect:" + uriBuilder.path("/user/edit").toUriString();
     }
 
-    @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("delete/{id}")
-    public String delete(@PathVariable long id) {
-        userFacade.delete(id);
-        return "{response: 'Success'}";
+    @GetMapping("edit/{id}")
+    public String editUser(@PathVariable long id, Model model) {
+        UserDTO user = userFacade.findOne(id);
+        model.addAttribute("user", user);
+        model.addAttribute("id", id);
+        return "user/edit";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("edit/{id}")
+    public String submitEdit(@PathVariable long id,
+                             @ModelAttribute("user") UserDTO userDTO,
+                             Model model, RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder) {
+        UserDTO user = userFacade.findOne(id);
+
+        if (userDTO.getName() != null && !userDTO.getName().isEmpty()) {
+            user.setName(userDTO.getName());
+        }
+
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        }
+
+        model.addAttribute("user", userFacade.save(user));
+
+        redirectAttributes.addFlashAttribute("alert_success", "User details were saved.");
+        return "redirect:" + uriBuilder.path("/user/edit/{id}").buildAndExpand(id).encode().toUriString();
+    }
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping(value = "delete/{id}")
+    public String delete(@PathVariable long id,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder uriBuilder) {
+        try {
+            userFacade.delete(id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "User cannot be deleted.");
+            return "redirect:" + uriBuilder.path("/user/list").toUriString();
+        }
+        redirectAttributes.addFlashAttribute("alert_success", "User deleted.");
+        return "redirect:" + uriBuilder.path("/user/list").toUriString();
     }
 
 }
