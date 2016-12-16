@@ -21,7 +21,7 @@ public abstract class BaseController {
     public ErrorDTO handleRuntimeException(Exception e) {
         ErrorDTO error = new ErrorDTO();
         error.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
-        error.setMessage("Server has encountered an unexpected problem. Please try again later.");
+        error.setMessage("Server has encountered an unexpected problem. Service is temporarily unavailable. Please try again later.");
         logger.error(e.getMessage());
         return error;
     }
