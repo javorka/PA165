@@ -112,7 +112,8 @@ public class UserController {
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
             }
-            return uriBuilder.path("/user/edit/{id}").buildAndExpand(id).encode().toUriString();
+            return "user/edit";
+//            return uriBuilder.path("/user/edit/{id}").buildAndExpand(id).encode().toUriString();
         }
 
         UserDTO user = userFacade.findOne(id);

@@ -8,25 +8,28 @@
 <my:template title="${user.name} - New Order">
 <jsp:attribute name="body">
 <div class="col-lg-12">
-    <form:form id="${order.id}" method="post" modelAttribute="order"
+    <form:form id="${order.id}" method="post" modelAttribute="orderForm"
                action="${pageContext.request.contextPath}/orders/save">
-    <form:hidden path="id"  style="display:none"/>
-    
     <div class="form-group">
-        <label for="tire">Tire type</label>
-        <form:select path="tire" cssClass="form-control" id="tire">
+        <label for="tireId">Tire type</label>
+        <form:select path="tireId" cssClass="form-control" id="tireId">
             <form:options items="${tireList}"/>
         </form:select>
     </div>
     
     <div class="form-group">
         <label for="tireQuantity">Count</label>
-        <form:input path="tireQuantity" cssClass="form-control" id="tireQuantity" placeholder="1"/>
+        <form:input path="order.tireQuantity" cssClass="form-control" id="tireQuantity" placeholder="1"/>
     </div>
     
     <div class="form-group">
         <label for="address">Address</label>
-        <form:input path="address" cssClass="form-control" id="manufacturer" placeholder="Address"/>
+        <form:input path="order.address" cssClass="form-control" id="address" placeholder="Address"/>
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Address</label>
+        <form:input path="order.phone" cssClass="form-control" id="phone" placeholder="Phone"/>
     </div>
    
     <button type="submit" class="btn btn-default">Submit</button>

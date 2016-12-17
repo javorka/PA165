@@ -13,7 +13,6 @@ public class UserEditForm {
     private String name;
 
     @NotNull
-    @Size(min = 6, max = 50)
     private String password;
 
     private String email;
