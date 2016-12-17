@@ -5,6 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%--.
   Author: xtravni2
@@ -31,7 +32,7 @@
             <tr>
                 <td>${order.id}</td>
                 <td><fmt:formatDate value="${order.dateCreated}" pattern="yyyy-MM-dd"/></td>
-                <td><b style="color: red;">${order.state}</b></td>
+                <td><span class="order-${fn:toLowerCase(order.state)}">${order.state}</span></td>
                 <td><c:out value="${order.user.email}"/></td>
                 <td><c:out value="${order.user.name}"/></td>
                 <td><c:out value="${order.address}"/></td>
@@ -42,8 +43,8 @@
         </table>
 
     <div class="row">
-    <c:choose>
-        <c:when test="${order.state=='RECEIVED'}">
+        <c:if test="${order.state=='RECEIVED'}">
+            <sec:authorize access="hasAuthority('ADMIN')">
             <div class="col-xs-1">
             <form method="get" action="${pageContext.request.contextPath}/orders/finish/${order.id}">
                 <button type="submit" class="btn btn-primary">Finish</button>
@@ -54,8 +55,8 @@
                 <button type="submit" class="btn btn-danger">Cancel</button>
             </form>
             </div>
-        </c:when>        
-    </c:choose>
+            </sec:authorize>
+        </c:if>
         <div class="col-xs-1">
             <form method="post" action="${pageContext.request.contextPath}/orders/delete/${order.id}">
             <sec:csrfInput/>
@@ -82,7 +83,6 @@
             
             <c:set var="tire" value="${order.tire}"/>            
             <c:set var="tireTotal" value="${tire.price*order.tireQuantity}"/>
-            <c:set var="total" value="${tireTotal}"/>
 
             <tr>
                 <td>${tire.id}</td>
@@ -119,13 +119,11 @@
                 <td>${item.name}</td>
                 <td>${item.description}</td>
                 <td><c:out value="${item.price}"/></td> 
-                <c:set var="total" value="${total+item.price}"/>
 
             </tr>
         </c:forEach>
         <tr>
-            <th colspan="4"><b>Order Total:</b><c:out value="${total}"/></th>
-       
+            <th colspan="4"><b>Order Total Price: </b><c:out value="${order.price}"/></th>
         </tr>
         </tbody>
     </table>

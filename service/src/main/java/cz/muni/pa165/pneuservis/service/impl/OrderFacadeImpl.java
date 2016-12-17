@@ -1,8 +1,10 @@
 package cz.muni.pa165.pneuservis.service.impl;
 
 import cz.muni.pa165.pneuservis.api.dto.OrderDTO;
+import cz.muni.pa165.pneuservis.api.dto.UserDTO;
 import cz.muni.pa165.pneuservis.api.facade.OrderFacade;
 import cz.muni.pa165.pneuservis.persistence.domain.Order;
+import cz.muni.pa165.pneuservis.persistence.domain.User;
 import cz.muni.pa165.pneuservis.service.BeanMappingService;
 import cz.muni.pa165.pneuservis.service.OrderService;
 import org.slf4j.Logger;
@@ -45,5 +47,11 @@ public class OrderFacadeImpl implements OrderFacade {
     public void delete(Long id) {
         logger.info("Requested to delete Order with id : {}", id);
         orderService.delete(id);
+    }
+
+    @Override
+    public List<OrderDTO> findByUser(UserDTO user) {
+        logger.info("Requested to find all Orders of User with id: {}", user.getId());
+        return mappingService.mapTo(orderService.findByUser(mappingService.mapTo(user, User.class)), OrderDTO.class);
     }
 }

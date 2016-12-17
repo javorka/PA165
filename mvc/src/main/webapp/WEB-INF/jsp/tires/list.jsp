@@ -32,8 +32,11 @@
         <div class="col-lg-6">
             <h2>List tires</h2>
             <select class="form-control" id="list-tires">
-                <option ${selected == 1 ? 'selected' : ''} value="${pageContext.request.contextPath}/tires/">All tires</option>
-                <option ${selected == 2 ? 'selected' : ''} value="${pageContext.request.contextPath}/tires/three-best-selling">Best selling</option>
+                <option ${selected == 1 ? 'selected' : ''} value="${pageContext.request.contextPath}/tires/">All tires
+                </option>
+                <option ${selected == 2 ? 'selected' : ''}
+                        value="${pageContext.request.contextPath}/tires/three-best-selling">Best selling
+                </option>
             </select>
         </div>
         <div class="col-lg-6">
@@ -44,15 +47,15 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>Tire Type</th>
-            <th>Size</th>
-            <th>Manufacturer</th>
-            <th>Vehicle type</th>
-            <th>Price</th>
-            <th>Operation</th>
-        </tr>
+    <tr>
+        <th>Name</th>
+        <th>Tire Type</th>
+        <th>Size</th>
+        <th>Manufacturer</th>
+        <th>Vehicle type</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
     <c:forEach items="${tires}" var="ts">
@@ -63,24 +66,28 @@
             <td><c:out value="${ts.manufacturer}"/></td>
             <td><c:out value="${ts.vehicleType}"/></td>
             <td><c:out value="${ts.price}"/></td>
+            <sec:authorize access="hasAuthority('ADMIN')">
             <td>
                 <a href="${pageContext.request.contextPath}/tires/edit/${ts.id}"
                    class="btn btn-default">Edit</a>
                 <a class="btn btn-danger" data-href="${pageContext.request.contextPath}/tires/delete/${ts.id}"
                    data-toggle="modal" data-target="#confirm-delete-modal" data-name="${ts.name}">Delete</a>
             </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<sec:authorize access="hasAuthority('ADMIN')">
 <div class="text-right border-top createButtonWrapper">
     <a href="${pageContext.request.contextPath}/tires/new" class="btn btn-primary">Add tire</a>
 </div>
+</sec:authorize>
 
 </jsp:attribute>
-<jsp:attribute name="script">
+    <jsp:attribute name="script">
     <script>
-        $(function(){
+        $(function () {
             $('#list-tires').on('change', function () {
                 var url = $(this).val();
                 if (url) {
@@ -89,7 +96,7 @@
                 return false;
             });
         });
-        $('#confirm-delete-modal').on('show.bs.modal', function(e) {
+        $('#confirm-delete-modal').on('show.bs.modal', function (e) {
             $(this).find('.delete-confirm').attr('action', $(e.relatedTarget).data('href'));
             $(this).find('.name-placeholder').text($(e.relatedTarget).data('name'));
         });

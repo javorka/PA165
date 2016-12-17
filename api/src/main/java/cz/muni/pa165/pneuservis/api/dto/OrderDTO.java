@@ -1,6 +1,5 @@
 package cz.muni.pa165.pneuservis.api.dto;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -21,8 +20,6 @@ public class OrderDTO {
     @NotNull
     private String phone;
 
-    @DecimalMin("0.0")
-    @NotNull
     private BigDecimal price;
 
     @NotNull
@@ -38,7 +35,6 @@ public class OrderDTO {
 
     private OrderStateDTO state = OrderStateDTO.RECEIVED;
 
-    @NotNull
     private UserDTO user;
 
     public UserDTO getUser() {

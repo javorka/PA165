@@ -39,7 +39,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Operation</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -48,19 +48,23 @@
                 <td><c:out value="${as.name}"/></td>
                 <td><c:out value="${as.description}"/></td>
                 <td><c:out value="${as.price}"/></td>
+                <sec:authorize access="hasAuthority('ADMIN')">
                 <td>
                     <a href="${pageContext.request.contextPath}/additionalService/edit/${as.id}"
                        class="btn btn-default">Edit</a>
                     <a class="btn btn-danger" data-href="${pageContext.request.contextPath}/additionalService/delete/${as.id}"
                        data-toggle="modal" data-target="#confirm-delete-modal" data-name="${as.name}">Delete</a>
                 </td>
+                </sec:authorize>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <sec:authorize access="hasAuthority('ADMIN')">
     <div class="text-right border-top createButtonWrapper">
         <a href="${pageContext.request.contextPath}/additionalService/new" class="btn btn-primary">Add Additional service</a>
     </div>
+    </sec:authorize>
 </div>
 </jsp:attribute>
     <jsp:attribute name="script">

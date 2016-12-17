@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%--.
   Author: xtravni2
@@ -17,7 +18,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
             <th>placed</th>
             <th>state</th>
             <th>email</th>
@@ -30,9 +30,8 @@
         <tbody>
         <c:forEach items="${orders}" var="order">
             <tr>
-                <td>${order.id}</td>
                 <td><fmt:formatDate value="${order.dateCreated}" pattern="yyyy-MM-dd"/></td>
-                <td>${order.state}</td>
+                <td><span class="order-${fn:toLowerCase(order.state)}">${order.state}</span></td>
                 <td><c:out value="${order.user.email}"/></td>
                 <td><c:out value="${order.user.name}"/></td>
                 <td><c:out value="${order.phone}"/></td>

@@ -1,6 +1,7 @@
 package cz.muni.pa165.pneuservis.service;
 
 import cz.muni.pa165.pneuservis.persistence.domain.Order;
+import cz.muni.pa165.pneuservis.persistence.domain.User;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface OrderService {
      * @param id - must not be null.
      */
     void delete(Long id);
+
+    List<Order> findByUser(User user);
 }

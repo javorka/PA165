@@ -19,3 +19,18 @@
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
 }
+
+.order-received {
+    color: #31708f;
+    font-weight: bold;
+}
+
+.order-canceled {
+    color: #a94442;
+    font-weight: bold;
+}
+
+.order-done {
+    color: #3c763d;
+    font-weight: bold;
+}

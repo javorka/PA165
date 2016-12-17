@@ -1,6 +1,7 @@
 package cz.muni.pa165.pneuservis.api.facade;
 
 import cz.muni.pa165.pneuservis.api.dto.OrderDTO;
+import cz.muni.pa165.pneuservis.api.dto.UserDTO;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface OrderFacade {
      * @param id - must not be null.
      */
     void delete(Long id);
+
+    List<OrderDTO> findByUser(UserDTO user);
 }

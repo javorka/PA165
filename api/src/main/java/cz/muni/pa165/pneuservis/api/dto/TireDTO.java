@@ -87,23 +87,26 @@ public class TireDTO {
 
         TireDTO tireDTO = (TireDTO) o;
 
-        if (!name.equals(tireDTO.name)) return false;
-        if (tireType != tireDTO.tireType) return false;
-        if (!size.equals(tireDTO.size)) return false;
-        if (!manufacturer.equals(tireDTO.manufacturer)) return false;
-        if (!vehicleType.equals(tireDTO.vehicleType)) return false;
-        return price.equals(tireDTO.price);
-
+        if (getId() != null ? !getId().equals(tireDTO.getId()) : tireDTO.getId() != null) return false;
+        if (getName() != null ? !getName().equals(tireDTO.getName()) : tireDTO.getName() != null) return false;
+        if (getTireType() != tireDTO.getTireType()) return false;
+        if (getSize() != null ? !getSize().equals(tireDTO.getSize()) : tireDTO.getSize() != null) return false;
+        if (getManufacturer() != null ? !getManufacturer().equals(tireDTO.getManufacturer()) : tireDTO.getManufacturer() != null)
+            return false;
+        if (getVehicleType() != null ? !getVehicleType().equals(tireDTO.getVehicleType()) : tireDTO.getVehicleType() != null)
+            return false;
+        return getPrice() != null ? getPrice().equals(tireDTO.getPrice()) : tireDTO.getPrice() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = 31 + name.hashCode();
-        result = 31 * result + tireType.hashCode();
-        result = 31 * result + size.hashCode();
-        result = 31 * result + manufacturer.hashCode();
-        result = 31 * result + vehicleType.hashCode();
-        result = 31 * result + price.hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getTireType() != null ? getTireType().hashCode() : 0);
+        result = 31 * result + (getSize() != null ? getSize().hashCode() : 0);
+        result = 31 * result + (getManufacturer() != null ? getManufacturer().hashCode() : 0);
+        result = 31 * result + (getVehicleType() != null ? getVehicleType().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
         return result;
     }
 

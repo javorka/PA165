@@ -1,6 +1,7 @@
 package cz.muni.pa165.pneuservis.service.impl;
 
 import cz.muni.pa165.pneuservis.persistence.domain.Order;
+import cz.muni.pa165.pneuservis.persistence.domain.User;
 import cz.muni.pa165.pneuservis.persistence.repository.OrderRepository;
 import cz.muni.pa165.pneuservis.service.OrderService;
 import org.slf4j.Logger;
@@ -43,5 +44,10 @@ public class OrderServiceImpl implements OrderService {
 	public void delete(Long id) {
 		logger.info("Requested to delete Order with id: {} ", id);
 		orderRepository.delete(id);
+	}
+
+	@Override
+	public List<Order> findByUser(User user) {
+		return orderRepository.findByUser(user);
 	}
 }

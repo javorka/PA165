@@ -5,31 +5,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<my:template title="${user.name} - New Order">
+<my:template title="New Order">
 <jsp:attribute name="body">
 <div class="col-lg-12">
-    <form:form id="${order.id}" method="post" modelAttribute="orderForm"
+    <form:form id="${order.id}" method="post" modelAttribute="order"
                action="${pageContext.request.contextPath}/orders/save">
     <div class="form-group">
         <label for="tireId">Tire type</label>
-        <form:select path="tireId" cssClass="form-control" id="tireId">
+        <form:select path="tire.id" cssClass="form-control" id="tireId">
             <form:options items="${tireList}"/>
         </form:select>
     </div>
     
     <div class="form-group">
         <label for="tireQuantity">Count</label>
-        <form:input path="order.tireQuantity" cssClass="form-control" id="tireQuantity" placeholder="1"/>
+        <form:input path="tireQuantity" cssClass="form-control" id="tireQuantity" placeholder="1"/>
+        <form:errors path="tireQuantity" cssClass="text-danger" />
     </div>
     
     <div class="form-group">
         <label for="address">Address</label>
-        <form:input path="order.address" cssClass="form-control" id="address" placeholder="Address"/>
+        <form:input path="address" cssClass="form-control" id="address" placeholder="Address"/>
+        <form:errors path="address" cssClass="text-danger" />
     </div>
 
     <div class="form-group">
-        <label for="phone">Address</label>
-        <form:input path="order.phone" cssClass="form-control" id="phone" placeholder="Phone"/>
+        <label for="phone">Phone</label>
+        <form:input path="phone" cssClass="form-control" id="phone" placeholder="Phone"/>
+        <form:errors path="phone" cssClass="text-danger" />
     </div>
    
     <button type="submit" class="btn btn-default">Submit</button>

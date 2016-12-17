@@ -46,7 +46,10 @@
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/tires/">Tires</a></li>
                 <li><a href="${pageContext.request.contextPath}/additionalService/">Additional services</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/">User management</a></li>
+                <sec:authorize access="hasAuthority('ADMIN')">
+                <li><a href="${pageContext.request.contextPath}/user/list">User management</a></li>
+                <li><a href="${pageContext.request.contextPath}/orders/all">Orders management</a></li>
+                </sec:authorize>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="isAuthenticated()">
@@ -55,7 +58,7 @@
                            aria-expanded="false"><sec:authentication property="principal.username"/><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${pageContext.request.contextPath}/orders/">My orders</a></li>
-                            <li><a href="${pageContext.request.contextPath}/user/">My profile</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/edit">My profile</a></li>
                             <li role="separator" class="divider"></li>
                             <li>
                                 <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>

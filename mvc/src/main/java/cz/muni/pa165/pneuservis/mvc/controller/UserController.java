@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -67,18 +66,19 @@ public class UserController {
                              UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
-            for (ObjectError ge : bindingResult.getGlobalErrors()) {
-            }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
             }
+
             return "user/edit";
         }
 
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
 
         user.setName(userForm.getName());
-        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+
+        if (!userForm.getPassword().isEmpty())
+            user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
 
         model.addAttribute("user", userFacade.save(user));
 
@@ -88,8 +88,12 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("edit/{id}")
-    public String editUser(@PathVariable long id, Model model) {
+    public String editUser(@PathVariable long id, Model model,
+                           UriComponentsBuilder uriBuilder) {
         UserDTO user = userFacade.findOne(id);
+        if (user == null) {
+            return "redirect:" + uriBuilder.path("/user/list").toUriString();
+        }
         UserEditForm userForm = new UserEditForm();
         userForm.setEmail(user.getEmail());
         userForm.setName(user.getName());
@@ -107,20 +111,21 @@ public class UserController {
                              UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
-            for (ObjectError ge : bindingResult.getGlobalErrors()) {
-            }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
             }
+            model.addAttribute("id", id);
             return "user/edit";
-//            return uriBuilder.path("/user/edit/{id}").buildAndExpand(id).encode().toUriString();
         }
 
         UserDTO user = userFacade.findOne(id);
-
+        if (user == null) {
+            return "redirect:" + uriBuilder.path("/user/list").toUriString();
+        }
         user.setName(userForm.getName());
 
-        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+        if (!userForm.getPassword().isEmpty())
+            user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
 
         model.addAttribute("user", userFacade.save(user));
 
@@ -136,11 +141,10 @@ public class UserController {
                          UriComponentsBuilder uriBuilder) {
         try {
             userFacade.delete(id);
+            redirectAttributes.addFlashAttribute("alert_success", "User deleted.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("alert_danger", "User cannot be deleted.");
-            return "redirect:" + uriBuilder.path("/user/list").toUriString();
         }
-        redirectAttributes.addFlashAttribute("alert_success", "User deleted.");
         return "redirect:" + uriBuilder.path("/user/list").toUriString();
     }
 
