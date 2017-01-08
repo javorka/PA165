@@ -20,7 +20,7 @@
 
     <div class="form-group">
         <label for="tireQuantity"><f:message key="label.tire.count"/></label>
-        <form:input path="tireQuantity" cssClass="form-control" id="tireQuantity" placeholder="1"/>
+        <form:input path="tireQuantity" cssClass="form-control" id="tireQuantity" value="1"/>
         <form:errors path="tireQuantity" cssClass="text-danger"/>
     </div>
 

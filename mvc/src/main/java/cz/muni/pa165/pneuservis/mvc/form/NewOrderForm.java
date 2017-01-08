@@ -5,35 +5,43 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.GroupSequence;
+import javax.validation.constraints.Pattern;
+import javax.validation.groups.Default;
 
 /**
  * @author Michal Krajcovic <mkrajcovic@mail.muni.cz>
  */
+
+interface Sequence1 {}
+
+@GroupSequence(value={Sequence1.class,NewOrderForm.class})
 public class NewOrderForm {
 
-    @Min(1)
-    private int tireQuantity;
+    @Min(value = 1, message="Must be greater than 0", groups = Default.class)
+    @Pattern(regexp="[0-9]*", message="Must match number", groups = Sequence1.class)
+    private String tireQuantity;
 
-    @NotNull
+    @NotNull (groups = Default.class)
     private long tireId;
 
     @NotNull
-    @Size(min = 5)
+    @Size(min = 12, max = 80, message = "Must be between {min} and {max}", groups = Sequence1.class)
     private String address;
 
-
     @NotNull
-    @Size(min = 5)
+    @Size(min = 9, max = 20, message = "Must be between {min} and {max}", groups = Default.class)
+    @Pattern(regexp="[0-9]*", message= "Must match number", groups = Sequence1.class)
     private String phone;
 
     private List<Long> additionalServices = new ArrayList<>();
 
 
-    public int getTireQuantity() {
+    public String getTireQuantity() {
         return tireQuantity;
     }
 
-    public void setTireQuantity(int tireQuantity) {
+    public void setTireQuantity(String tireQuantity) {
         this.tireQuantity = tireQuantity;
     }
 

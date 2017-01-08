@@ -94,7 +94,7 @@ public class OrderController {
         UserDTO user = userFacade.findByEmail(userDetails.getUsername());
         OrderDTO order = new OrderDTO();
         order.setTire(tireFacade.findOne(orderForm.getTireId()));
-        order.setTireQuantity(orderForm.getTireQuantity());
+        order.setTireQuantity(Integer.valueOf(orderForm.getTireQuantity()));
         order.setAddress(orderForm.getAddress());
         order.setPhone(orderForm.getPhone());
         order.setAdditionalServices(orderForm.getAdditionalServices().stream().map(i -> additionalServiceFacade.findOne(i)).collect(Collectors.toList()));
